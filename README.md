@@ -20,7 +20,15 @@ To add additional tags, you could run:
 ```bash
 ./gce task add --name=mytask --weight=3 --tags=go,cli,example
 ```
-You could run `./gce --help` to see help and full options.
+You could also pass arguments using environment variables:
+```bash
+TASK_NAME=mytask TASK_WEIGHT=3 TASK_TAGS=go,cli,example ./gce task add
+```
+Passing environment variables to Docker container:
+```bash
+docker run -e TASK_NAME=mytask -e TASK_WEIGHT=3 -e TASK_TAGS=go,cli,example minghsu0107/gce task add
+```
+Run `./gce --help` to see helps and full options.
 
 Below is an overall project structure to see how commands are organized:
 ```
