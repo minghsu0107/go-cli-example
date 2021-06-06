@@ -19,12 +19,13 @@ steps:
 - name: publish_linux_amd64
   <<: *x-build-docker-image
   settings:
-    auto_tag: true
     repo: minghsu0107/gce
     dockerfile: Dockerfile
+    build_args:
+      - tag=${DRONE_TAG}
+      - build_number=${DRONE_BUILD_NUMBER}
   depends_on:
   - clone
   when:
     event:
-    - tag
     - push
