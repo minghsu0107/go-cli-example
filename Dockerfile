@@ -1,5 +1,5 @@
 
 FROM plugins/base:multiarch
 
-ADD /root/gce /bin/
+ADD /tmp/gce /bin/
 ENTRYPOINT ["/bin/gce"]

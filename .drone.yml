@@ -28,13 +28,13 @@ steps:
   commands:
   - |
     if test "${DRONE_TAG}" = ""; then
-      go build -v -ldflags "-X main.build=${DRONE_BUILD_NUMBER}" -a -o /root/gce
+      go build -v -ldflags "-X main.build=${DRONE_BUILD_NUMBER}" -a -o /tmp/gce
     else
-      go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o /root/gce
+      go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o /tmp/gce
     fi
   volumes:
   - name: binary
-    path: /root
+    path: /tmp
 - name: publish_linux_amd64
   <<: *x-build-docker-image
   settings:
@@ -49,7 +49,7 @@ steps:
     - push
   volumes:
   - name: binary
-    path: /root
+    path: /tmp
 
 volumes:
 - name: binary
