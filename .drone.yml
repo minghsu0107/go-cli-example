@@ -1,6 +1,7 @@
 kind: pipeline
 name: default
 
+
 x-build-docker-image: &x-build-docker-image
   image: plugins/docker
   settings:
