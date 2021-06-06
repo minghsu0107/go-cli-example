@@ -1,0 +1,45 @@
+kind: pipeline
+name: default
+
+steps:
+- name: build_linux_amd64
+  image: golang:1.15.2
+  depends_on:
+  - clone
+  environment:
+    GOOS: linux
+    GOARCH: amd64
+    CGO_ENABLED: 0
+  commands:
+  - |
+    if test "${DRONE_TAG}" = ""; then
+      go build -v -ldflags "-X main.build=${DRONE_BUILD_NUMBER}" -a -o /root/gce
+    else
+      go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o /root/gce
+    fi
+  volumes:
+  - name: binary
+    path: /root
+- name: publish_linux_amd64
+  image: plugins/docker
+  depends_on:
+  - build_linux_amd64
+  settings:
+    auto_tag: true
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: minghsu0107/gce
+    dockerfile: Dockerfile
+  volumes:
+  - name: binary
+    path: /root
+  when:
+    event:
+    - tag
+    - push
+
+volumes:
+- name: binary
+  temp: {}

@@ -33,7 +33,6 @@ go-cli-example/
 ├── go.mod
 ├── go.sum
 ├── main.go
-├── README.md
 └── service
     ├── task
     │   ├── add.go
