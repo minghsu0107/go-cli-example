@@ -1,7 +1,6 @@
 kind: pipeline
 name: default
 
-
 x-build-docker-image: &x-build-docker-image
   image: plugins/docker
   settings:
@@ -17,24 +16,6 @@ x-build-docker-image: &x-build-docker-image
       from_secret: docker_password
 
 steps:
-- name: build_linux_amd64
-  image: golang:1.15.2
-  depends_on:
-  - clone
-  environment:
-    GOOS: linux
-    GOARCH: amd64
-    CGO_ENABLED: 0
-  commands:
-  - |
-    if test "${DRONE_TAG}" = ""; then
-      go build -v -ldflags "-X main.build=${DRONE_BUILD_NUMBER}" -a -o /tmp/gce
-    else
-      go build -v -ldflags "-X main.version=${DRONE_TAG##v} -X main.build=${DRONE_BUILD_NUMBER}" -a -o /tmp/gce
-    fi
-  volumes:
-  - name: binary
-    path: /tmp
 - name: publish_linux_amd64
   <<: *x-build-docker-image
   settings:
@@ -42,15 +23,8 @@ steps:
     repo: minghsu0107/gce
     dockerfile: Dockerfile
   depends_on:
-  - build_linux_amd64
+  - clone
   when:
     event:
     - tag
     - push
-  volumes:
-  - name: binary
-    path: /tmp
-
-volumes:
-- name: binary
-  temp: {}
