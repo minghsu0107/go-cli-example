@@ -28,4 +28,5 @@ steps:
   - clone
   when:
     event:
+    - tag
     - push
