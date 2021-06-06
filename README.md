@@ -1,9 +1,9 @@
 # Go CLI Example
 A Go CLI example that shows a simple way to create CLI program with clean project structure.
 ## Installation
-Run in Docker:
+Use Docker image:
 ```bash
-docker run minghsu0107/gce
+docker pull minghsu0107/gce
 ```
 You could build from source:
 ```bash
