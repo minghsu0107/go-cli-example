@@ -5,7 +5,7 @@ Use Docker image:
 ```bash
 docker pull minghsu0107/gce
 ```
-You could build from source:
+Or you could build from source:
 ```bash
 git clone https://github.com/minghsu0107/go-cli-example.git
 cd go-cli-example
