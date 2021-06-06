@@ -6,6 +6,11 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
+ARG tag
+ARG build_number
+ENV DRONE_TAG=$tag
+ENV DRONE_BUILD_NUMBER=$build_number
+
 COPY . .
 RUN make build-linux
 
