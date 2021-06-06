@@ -1,6 +1,20 @@
 kind: pipeline
 name: default
 
+x-build-docker-image: &x-build-docker-image
+  image: plugins/docker
+  settings:
+    custom_labels:
+    - 'BUILD_NUMBER=${DRONE_BUILD_NUMBER}'
+    - 'BUILD_SHA=${DRONE_COMMIT_SHA}'
+    tags:
+      - ${DRONE_COMMIT_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+      - latest
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
 steps:
 - name: build_linux_amd64
   image: golang:1.15.2
@@ -21,24 +35,20 @@ steps:
   - name: binary
     path: /root
 - name: publish_linux_amd64
-  image: plugins/docker
-  depends_on:
-  - build_linux_amd64
+  <<: *x-build-docker-image
   settings:
     auto_tag: true
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
     repo: minghsu0107/gce
     dockerfile: Dockerfile
-  volumes:
-  - name: binary
-    path: /root
+  depends_on:
+  - build_linux_amd64
   when:
     event:
     - tag
     - push
+  volumes:
+  - name: binary
+    path: /root
 
 volumes:
 - name: binary
