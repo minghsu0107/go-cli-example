@@ -14,7 +14,7 @@ go build -o gce
 ## Getting Started
 We have two services, `task` and `template`. Each service is a subcommand with its own set of actions and flags. Take `task` service as an example. There are two actions for `task` service, `add` and `complete`, in which `add` adds a new task and `complete` completes the task. To add a task named `mytask` with a weight of 3, for example, you could run:
 ```bash
-./gce task add --name=mytask --weight 3
+./gce task add --name=mytask --weight=3
 ```
 To add additional tags, you could run:
 ```bash
