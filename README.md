@@ -19,6 +19,10 @@ We have two services, `task` and `template`. Each service is a subcommand with i
 To add additional tags, you could run:
 ```bash
 ./gce task add --name=mytask --weight=3 --tags=go,cli,example
+
+# or
+
+./gce task add --name=mytask --weight=3 --tags=go --tags=cli --tags=example
 ```
 You could also pass arguments using environment variables:
 ```bash
